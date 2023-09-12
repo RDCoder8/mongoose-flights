@@ -1,13 +1,13 @@
 const mongoose = require('mongoose')
 
-const fruitSchema = new mongoose.Schema({
+const flightSchema = new mongoose.Schema({
     airline: { type: String, required: true, enum: ['American', 'Southwest', 'United'] },
-    flightNo: {type: Number,  required: true},
-    departs: {type: Date}
+    flightNo: {type: Number,  required: true, min: 10, max: 9999},
+    departs: {type: Date, default: Date.now()}
 }, {
     timestamps: true
 })
 
-const Fruit = mongoose.model('Fruit', fruitSchema)
+const Flight = mongoose.model('Flight', flightSchema)
 
-module.exports = Fruit
+module.exports = Flight
