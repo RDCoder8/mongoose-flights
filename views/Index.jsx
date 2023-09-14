@@ -13,7 +13,7 @@ export default class Index extends Component {
           {
           flights.map((flight, i) => {
             return (
-              <li key={i}>{`Airline: ${flight.airline}`} <br /> {`Flight #: ${flight.flightNo}`} <br /> {`Departure Time: ${flight.departs}`}</li>
+              <li key={i}>{`Airline: ${flight.airline}`} <br /> {`Flight #: ${flight.flightNo}`} <br /> {`Departure Time: ${flight.departs}`} <a href={`/flights/${flight._id}`}>details</a></li>
             )
           })
           }

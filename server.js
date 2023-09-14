@@ -38,11 +38,14 @@ app.get("/flights", async (req, res) => {
   }
 })
 
-
 //New route
 app.get("/flights/new", (req, res) => {
     res.render("New")
 })
+
+//Delete Rout
+
+//Update Route
 
 //Create Route
 app.post("/flights", async (req, res) => {
@@ -52,6 +55,19 @@ app.post("/flights", async (req, res) => {
   } catch (error) {
     res.status(400).send(error)
   }
+})
+
+//Edit Route
+
+//Show Route
+app.get("/flights/:id", async (req, res) => {
+  try {
+    const foundFlight = await Flight.findById(req.params.id)
+    res.status(200).render('Show', {flight: foundFlight})
+  } catch (error) {
+    res.status(400).send(error)
+  }
+  
 })
 
 app.listen(PORT, ()=>{
