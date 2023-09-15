@@ -9,8 +9,15 @@ export default class Show extends Component {
         <p>Flight Number: {flight.flightNo}</p>
         <p>Departure Time: {`${flight.departs}`}</p>
         <p>Airport: {flight.airport}</p>
-        <p>Destination: {`${flight.destinations[0].airport}`}</p>
-        <p>Arrival: {`${flight.destinations[0].arrival}`}</p>
+        {flight.destinations.map((destination, i) =>{
+          return (
+            <div key={i}>
+            <p>Destination: {`${destination.airport}`}</p>
+        <p>Arrival: {`${destination.arrival}`}</p>
+        </div>
+          )
+        })}
+        
         <form action={`/flights/${flight._id}?_method=PUT`} method="POST">
             Destination:{" "}
             <select name="airport">
