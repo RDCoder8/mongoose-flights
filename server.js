@@ -4,6 +4,7 @@ const app = express()
 const PORT = process.env.PORT || 3000
 const mongoose = require('mongoose')
 const Flights = require('./models/Flight')
+const methodOverride = require('method-override')
 
 ////////Database Collection
 mongoose.connect(process.env.MONGO_URI, {
@@ -26,6 +27,7 @@ app.engine("jsx", jsxViewEngine())
 
 /////////Middleware
 app.use(express.urlencoded({extended: false}))
+app.use(methodOverride('_method'));
 
 
 //Index Route
@@ -46,6 +48,22 @@ app.get("/flights/new", (req, res) => {
 //Delete Rout
 
 //Update Route
+app.put("/flights/:id", async (req, res) => {
+  try {
+    const destination = req.body
+    const foundFlight = await Flight.findById(req.params.id)
+    console.log(foundFlight)
+    if (foundFlight.destinations.length > 0) {
+      foundFlight.destinations.pop()
+    }
+    foundFlight.destinations.push(destination)
+    console.log(foundFlight)
+    const updatedFlight = await Flight.findByIdAndUpdate(req.params.id, foundFlight, {new: true})
+    res.status(201).send(updatedFlight)
+  } catch (error) {
+    res.status(400).send(error)
+  }
+})
 
 //Create Route
 app.post("/flights", async (req, res) => {
@@ -69,6 +87,11 @@ app.get("/flights/:id", async (req, res) => {
   }
   
 })
+
+//Catch All Route
+app.get("*", (req, res) => {
+  res.redirect("/flights");
+});
 
 app.listen(PORT, ()=>{
     console.log("Spirit Airlines, because we make ghosts.")
